@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +18,7 @@ import org.junit.jupiter.api.Test;
 class Assignment8Test {
 
 	@Test
-	public void get_1000000_numbers() {
+	public void get_list_of_1000000_numbers_and_number_occurrences() {
 		Assignment8 assignment = new Assignment8();
 		String message = "Starting";
 		System.out.println(message);
@@ -24,9 +26,10 @@ class Assignment8Test {
 		
 		List<CompletableFuture<Void>> tasks = new ArrayList<>();
 		
-		List<Integer> numbers = new ArrayList<>();
+		List<Integer> numbers = Collections.synchronizedList(new ArrayList<>());
 		
 		ExecutorService executor = Executors.newFixedThreadPool(2);
+//		ExecutorService executor = Executors.newCachedThreadPool();
 		
 		List<Integer> numbersList = assignment.getNumbers();
 		
@@ -48,6 +51,12 @@ class Assignment8Test {
 		System.out.println(Arrays.toString(numbers.toArray()));
 		assertEquals(1000000, numbers.size());
 		
+		Map<Integer, Long> numberOccurrences = numbers.stream()
+				   .collect(Collectors.groupingBy(number -> number, Collectors.counting()));
+			
+			numberOccurrences.forEach((number, occurrences) -> {
+				System.out.print(number + "=" + occurrences + ", ");
+			}); 
 	  
 	}	
 }
