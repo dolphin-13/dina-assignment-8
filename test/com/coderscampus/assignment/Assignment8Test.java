@@ -26,18 +26,18 @@ class Assignment8Test {
 		String message = "Starting";
 		System.out.println(message);		
 		
-		List<CompletableFuture<Void>> tasks = new ArrayList<>();
+		List<CompletableFuture<Void>> tasks = new ArrayList<>(1000);
 		
 		List<Integer> numbers = Collections.synchronizedList(new ArrayList<>());
 		
-		ExecutorService executor = Executors.newFixedThreadPool(2);
-	//	ExecutorService executor = Executors.newCachedThreadPool();
+	//	ExecutorService executor = Executors.newFixedThreadPool(2);
+		ExecutorService executor = Executors.newCachedThreadPool();
 		
-		List<Integer> numbersList = assignment.getNumbers();
+	//	List<Integer> numbersList = assignment.getNumbers();
 		
 		for(int i=0; i< 1000; i++) {
 			CompletableFuture<Void> task = 
-					CompletableFuture.supplyAsync(() -> numbersList, executor)
+					CompletableFuture.supplyAsync(() -> assignment.getNumbers(), executor)
 					                 .thenAccept(num -> numbers.addAll(num));
 			tasks.add(task);
 		}
