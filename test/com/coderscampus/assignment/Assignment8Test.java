@@ -46,15 +46,13 @@ class Assignment8Test {
 				
 		while(tasks.stream()
 		   .filter(CompletableFuture::isDone)
-		   .count() < 1000)
-			
+		   .count() < 1000)		
 			System.out.println(numbers.size() + " numbers added to the list");
 		System.out.println(Arrays.toString(numbers.toArray()));
 		assertEquals(1000000, numbers.size());
 	    		
 //		Map<Integer, Long> numberOccurrences = numbers.stream()
-//				   .collect(Collectors.groupingBy(number -> number, Collectors.counting()));
-			
+//				   .collect(Collectors.groupingBy(number -> number, Collectors.counting()));			
 //			numberOccurrences.forEach((number, occurrences) -> {
 //				System.out.print(number + "=" + occurrences + ", ");
 //			}); 
@@ -67,6 +65,8 @@ class Assignment8Test {
 	        //verify the occurrences in another way 
 	        Set<Integer> ns = new HashSet<>(numbers);
 		     for (Integer n : ns)
-		            System.out.println(n + "= " + Collections.frequency(numbers, n));	  
+		            System.out.println(n + "= " + Collections.frequency(numbers, n));
+		     
+		     executor.shutdown();
 	}	
 }
